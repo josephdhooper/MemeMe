@@ -73,19 +73,30 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         
     }
     
+    func saveMeme() {
+        let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, image: imagePickerView.image!, memedImage: generateMemedImage())
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+            appDelegate.memes.append(meme)
+
+        
+    }
+    
     
     @IBAction func shareMeme(sender: AnyObject) {
         let activityController = UIActivityViewController(activityItems: [generateMemedImage()], applicationActivities: nil)
         presentViewController(activityController, animated: true, completion: nil)
         activityController.completionWithItemsHandler = { activity, success, items, error in
-            if( activity == UIActivityTypeSaveToCameraRoll && success) {
+        
+            if success {
                 self.saveMeme()
-                self.presentSentMeme()
+                self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+            
             }
-        }
+                    }
         
     }
-    
+
     
     @IBAction func cancelMeme(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
@@ -102,16 +113,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         }
     }
 
-    func saveMeme() {
-        if(imagePickerView.image != nil){
-            let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, image: imagePickerView.image!, memedImage: generateMemedImage())
-            let object = UIApplication.sharedApplication().delegate
-            let appDelegate = object as! AppDelegate
-            appDelegate.memes.append(meme)
-            UIImageWriteToSavedPhotosAlbum(generateMemedImage(), self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
-        }
-        
-    }
+   
     
     func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo: UnsafePointer<()>) {
         dispatch_async(dispatch_get_main_queue(), {
