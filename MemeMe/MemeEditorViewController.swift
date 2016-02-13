@@ -38,21 +38,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         
         setupTextField(topText)
         setupTextField(bottomText)
-
-
-//        topText.text = "TOP"
-//        bottomText.text = "BOTTOM"
-        shareButton.enabled = false
-//
-//        bottomText.defaultTextAttributes = memeTextAttributes
-//        topText.defaultTextAttributes = memeTextAttributes
-//        
-//        bottomText.textAlignment = NSTextAlignment.Center
-//        topText.textAlignment = NSTextAlignment.Center
-//        
-//        bottomText.delegate = self
-//        topText.delegate = self
-        
         
     
     }
@@ -76,7 +61,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         imagePicker.delegate = self
-        self.presentViewController(imagePicker, animated: true, completion:nil)
+        presentViewController(imagePicker, animated: true, completion:nil)
     }
     
     
@@ -84,7 +69,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
         imagePicker.delegate = self
-        self.presentViewController(imagePicker, animated: true, completion:nil)
+        presentViewController(imagePicker, animated: true, completion:nil)
         
     }
     
@@ -104,8 +89,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     @IBAction func cancelMeme(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
-        bottomText.text = "BOTTOM"
-        topText.text = "TOP"
+        resetText()
         imagePickerView.image = nil
         shareButton.enabled = false
         
@@ -141,13 +125,13 @@ UINavigationControllerDelegate, UITextFieldDelegate {
             imagePickerView.image = image
             shareButton.enabled = true
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
         
     }
     
     func presentSentMeme() {
         let memeMeTabBarViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tabBarController") as! UITabBarController
-        self.presentViewController(memeMeTabBarViewController, animated: true, completion: nil)
+        presentViewController(memeMeTabBarViewController, animated: true, completion: nil)
     }
 
     
@@ -200,6 +184,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     func unsubscribeFromKeyboardNotification() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
