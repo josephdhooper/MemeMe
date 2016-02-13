@@ -31,7 +31,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         NSStrokeWidthAttributeName : -2.0 ]
     
     let topDefaultText = "TOP"
-    let bottomDefaultText = "Bottom"
+    let bottomDefaultText = "BOTTOM"
     
     override func viewDidLoad() {
         super.viewDidLoad()
