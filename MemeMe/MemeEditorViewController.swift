@@ -39,7 +39,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         setupTextField(topText)
         setupTextField(bottomText)
         
-    
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -54,8 +53,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         super.viewWillDisappear(animated)
         unsubscribeFromKeyboardNotification()
 }
-
-
     
     @IBAction func pickAnImage(sender: AnyObject) {
         let imagePicker = UIImagePickerController()
@@ -64,24 +61,20 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         presentViewController(imagePicker, animated: true, completion:nil)
     }
     
-    
     @IBAction func takePhoto(sender: AnyObject) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-        imagePicker.delegate = self
-        presentViewController(imagePicker, animated: true, completion:nil)
-        
+        let camera = UIImagePickerController()
+        camera.delegate = self
+        camera.sourceType = UIImagePickerControllerSourceType.Camera
+        presentViewController(camera, animated: true, completion: nil)
     }
-    
+
     func saveMeme() {
         let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, image: imagePickerView.image!, memedImage: generateMemedImage())
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
             appDelegate.memes.append(meme)
-
         
     }
-    
     
     @IBAction func shareMeme(sender: AnyObject) {
         let activityController = UIActivityViewController(activityItems: [generateMemedImage()], applicationActivities: nil)
@@ -96,7 +89,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
                     }
         
     }
-
     
     @IBAction func cancelMeme(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
@@ -112,15 +104,12 @@ UINavigationControllerDelegate, UITextFieldDelegate {
             textField.text = ""
         }
     }
-
    
-    
     func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo: UnsafePointer<()>) {
         dispatch_async(dispatch_get_main_queue(), {
             
         })
     }
-
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]){
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -136,7 +125,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         presentViewController(memeMeTabBarViewController, animated: true, completion: nil)
     }
 
-    
     func generateMemedImage() -> UIImage {
         
         let desiredSize = CGSize(width: view.frame.width, height: view.frame.height - toolBar.frame.height)
