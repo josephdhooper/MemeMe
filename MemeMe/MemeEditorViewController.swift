@@ -30,22 +30,28 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         NSFontAttributeName : UIFont(name: "Impact", size: 30)!,
         NSStrokeWidthAttributeName : -2.0 ]
     
+    let topDefaultText = "TOP"
+    let bottomDefaultText = "Bottom"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupTextField(topText)
+        setupTextField(bottomText)
 
-        super.viewDidLoad()
-        topText.text = "TOP"
-        bottomText.text = "BOTTOM"
+
+//        topText.text = "TOP"
+//        bottomText.text = "BOTTOM"
         shareButton.enabled = false
-        
-        bottomText.defaultTextAttributes = memeTextAttributes
-        topText.defaultTextAttributes = memeTextAttributes
-        
-        bottomText.textAlignment = NSTextAlignment.Center
-        topText.textAlignment = NSTextAlignment.Center
-        
-        bottomText.delegate = self
-        topText.delegate = self
+//
+//        bottomText.defaultTextAttributes = memeTextAttributes
+//        topText.defaultTextAttributes = memeTextAttributes
+//        
+//        bottomText.textAlignment = NSTextAlignment.Center
+//        topText.textAlignment = NSTextAlignment.Center
+//        
+//        bottomText.delegate = self
+//        topText.delegate = self
         
         
     
@@ -167,6 +173,18 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func resetText(){
+        topText.text = topDefaultText
+        bottomText.text = bottomDefaultText
+    }
+    
+    func setupTextField(textField: UITextField) {
+        textField.defaultTextAttributes = memeTextAttributes
+        textField.textAlignment = NSTextAlignment.Center
+        textField.delegate = self
+        
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
