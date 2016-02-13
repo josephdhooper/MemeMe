@@ -113,6 +113,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]){
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            imagePickerView.contentMode = .ScaleAspectFit
             imagePickerView.image = image
             shareButton.enabled = true
         }
