@@ -44,7 +44,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         subsribeToKeyboardNotification()
-        
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         
     }
@@ -86,7 +85,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
                 self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
             
             }
-                    }
+                }
         
     }
     
@@ -126,20 +125,22 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         presentViewController(memeMeTabBarViewController, animated: true, completion: nil)
     }
 
+    private func hideToolbarAndNavbar (hide: Bool){
+        navBar.hidden = hide
+        toolBar.hidden = hide
+    }
+    
     func generateMemedImage() -> UIImage {
-        
         let desiredSize = CGSize(width: view.frame.width, height: view.frame.height - toolBar.frame.height)
-        
-        navBar.hidden = true
-        toolBar.hidden = true
+
+        hideToolbarAndNavbar(true)
         
         UIGraphicsBeginImageContext(desiredSize)
         view.drawViewHierarchyInRect(view.frame, afterScreenUpdates: true)
         let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        navBar.hidden = false
-        toolBar.hidden = false
+        hideToolbarAndNavbar(false)
         
         return memedImage
     }
@@ -193,13 +194,15 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func keyboardWillHide(notification: NSNotification) {
+        if bottomText.isFirstResponder(){
         view.frame.origin.y = 0
+//        view.frame.origin.y += getKeyboardHeight(notification)
     }
     
 }
 
 
-
+}
 
 
     
