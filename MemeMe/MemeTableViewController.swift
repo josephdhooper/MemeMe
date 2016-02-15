@@ -66,7 +66,6 @@ class MemeTableViewController: UITableViewController {
         
     }
     
-    
     @IBAction func deleteMeme(sender: AnyObject) {
         deleteBool = !deleteBool
         tableView.setEditing(deleteBool, animated: true)

@@ -45,7 +45,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         super.viewWillAppear(animated)
         subsribeToKeyboardNotification()
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
-        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -53,18 +52,23 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         unsubscribeFromKeyboardNotification()
 }
     
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
+    func presentImagePickerWithSource(sourceType: UIImagePickerControllerSourceType) {
+        let imagePickerView = UIImagePickerController()
+        imagePickerView.delegate = self
+        imagePickerView.sourceType = sourceType
+        self.presentViewController(imagePickerView, animated: true, completion: nil)
+    }
+    
     @IBAction func pickAnImage(sender: AnyObject) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        imagePicker.delegate = self
-        presentViewController(imagePicker, animated: true, completion:nil)
+        presentImagePickerWithSource(UIImagePickerControllerSourceType.PhotoLibrary)
     }
     
     @IBAction func takePhoto(sender: AnyObject) {
-        let camera = UIImagePickerController()
-        camera.delegate = self
-        camera.sourceType = UIImagePickerControllerSourceType.Camera
-        presentViewController(camera, animated: true, completion: nil)
+        presentImagePickerWithSource(UIImagePickerControllerSourceType.Camera)
     }
 
     func saveMeme() {
@@ -76,6 +80,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     @IBAction func shareMeme(sender: AnyObject) {
+       
         let activityController = UIActivityViewController(activityItems: [generateMemedImage()], applicationActivities: nil)
         presentViewController(activityController, animated: true, completion: nil)
         activityController.completionWithItemsHandler = { activity, success, items, error in
@@ -98,7 +103,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
-        //Clear default text
+       
         if textField.text == "BOTTOM" || textField.text == "TOP" {
             textField.text = ""
         }
@@ -131,11 +136,9 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func generateMemedImage() -> UIImage {
-        let desiredSize = CGSize(width: view.frame.width, height: view.frame.height - toolBar.frame.height)
-
         hideToolbarAndNavbar(true)
         
-        UIGraphicsBeginImageContext(desiredSize)
+        UIGraphicsBeginImageContext(view.frame.size)
         view.drawViewHierarchyInRect(view.frame, afterScreenUpdates: true)
         let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -144,7 +147,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         
         return memedImage
     }
-    
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -175,13 +177,14 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func unsubscribeFromKeyboardNotification() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
         
     }
     
+
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
-        let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+        let keyboardSize = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
         return keyboardSize.CGRectValue().height
         
     }
@@ -194,12 +197,11 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if bottomText.isFirstResponder(){
-        view.frame.origin.y = 0
-//        view.frame.origin.y += getKeyboardHeight(notification)
-    }
+        if bottomText.isFirstResponder() {
+            view.frame.origin.y = 0
+        }
     
-}
+    }
 
 
 }
