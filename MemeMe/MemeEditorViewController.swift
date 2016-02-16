@@ -10,7 +10,7 @@
 import UIKit
 
 class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegate,
-UINavigationControllerDelegate, UITextFieldDelegate {
+UINavigationControllerDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var shareButton: UIBarButtonItem!
@@ -21,12 +21,13 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     @IBOutlet weak var bottomText: UITextField!
     @IBOutlet weak var toolBar: UIToolbar!
     
+    
     var memes: [Meme]!
     var selectedImage: UIImage?
     
     let memeTextAttributes = [
-        NSForegroundColorAttributeName : UIColor.blackColor(),
-        NSStrokeColorAttributeName : UIColor.whiteColor(),
+        NSForegroundColorAttributeName : UIColor.whiteColor(),
+        NSStrokeColorAttributeName : UIColor.blackColor(),
         NSFontAttributeName : UIFont(name: "Impact", size: 30)!,
         NSStrokeWidthAttributeName : -2.0 ]
     
@@ -38,7 +39,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         
         setupTextField(topText)
         setupTextField(bottomText)
-        
+
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -56,12 +57,14 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         return true
     }
     
+    
     func presentImagePickerWithSource(sourceType: UIImagePickerControllerSourceType) {
         let imagePickerView = UIImagePickerController()
         imagePickerView.delegate = self
         imagePickerView.sourceType = sourceType
         self.presentViewController(imagePickerView, animated: true, completion: nil)
     }
+    
     
     @IBAction func pickAnImage(sender: AnyObject) {
         presentImagePickerWithSource(UIImagePickerControllerSourceType.PhotoLibrary)
@@ -91,7 +94,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
             
             }
                 }
-        
     }
     
     @IBAction func cancelMeme(sender: AnyObject) {
@@ -120,7 +122,9 @@ UINavigationControllerDelegate, UITextFieldDelegate {
             imagePickerView.contentMode = .ScaleAspectFit
             imagePickerView.image = image
             shareButton.enabled = true
+
         }
+        
         dismissViewControllerAnimated(true, completion: nil)
         
     }
@@ -130,7 +134,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         presentViewController(memeMeTabBarViewController, animated: true, completion: nil)
     }
 
-    private func hideToolbarAndNavbar (hide: Bool){
+    func hideToolbarAndNavbar (hide: Bool){
         navBar.hidden = hide
         toolBar.hidden = hide
     }
@@ -181,7 +185,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
         
     }
-    
 
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
         let keyboardSize = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue

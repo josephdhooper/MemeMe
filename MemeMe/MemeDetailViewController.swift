@@ -20,6 +20,7 @@ class MemeDetailViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: UIBarButtonItemStyle.Plain, target: self, action: "deleteMeme")
         
+        
     }
     
         func deleteMeme() {
@@ -35,19 +36,21 @@ class MemeDetailViewController: UIViewController {
             }
         }
 
-        override func viewWillAppear(animated: Bool) {
-            super.viewWillAppear(animated)
-            
-            
-            tabBarController?.tabBar.hidden = true
-            
-            imagePickerView!.image = meme.memedImage
-        }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.hidden = true
+        imagePickerView!.image = meme.memedImage
         
-         override func viewWillDisappear(animated: Bool) {
-            super.viewWillDisappear(animated)
-            tabBarController?.tabBar.hidden = false
-        }
+    }
+        
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.hidden = false
+        
+    }
     
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    
+    }
 }
-
