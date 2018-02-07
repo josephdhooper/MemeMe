@@ -78,7 +78,7 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Memes" id="y1N-jw-qLI">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="DXM-gn-fOe">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="DXM-gn-fOe">
                             <connections>
                                 <action selector="createMemeWithSender:" destination="VA4-YB-Fey" id="dXc-OT-ZpD"/>
                             </connections>
@@ -334,7 +334,7 @@
                                 <action selector="deleteMemeWithSender:" destination="bv3-Nt-MTT" id="Zo2-M6-zv5"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="8DL-fj-1HY">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="8DL-fj-1HY">
                             <connections>
                                 <action selector="createMemeWithSender:" destination="bv3-Nt-MTT" id="KyG-GO-rfB"/>
                             </connections>
