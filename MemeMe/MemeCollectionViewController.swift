@@ -15,7 +15,6 @@ class MemeCollectionViewController: UICollectionViewController {
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,13 +28,12 @@ class MemeCollectionViewController: UICollectionViewController {
         collectionView?.reloadData()
         
         let space: CGFloat = 3.0
-        //let widthDem = (view.frame.size.width - (2 * space)) / 4.0
-        //let heightDem = (view.frame.size.height - (2 * space)) / 4.0
-        let dimension = (view.frame.size.width - (2 * space)) / 3.0
+        let widthDem = (view.frame.size.width - (2 * space)) / 4.0
+        let heightDem = (view.frame.size.height - (2 * space)) / 4.0
         
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 0
-        flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+        flowLayout.itemSize = CGSize(width: widthDem, height: heightDem)
         
     }
     

@@ -4,6 +4,7 @@
 //
 //  Created by Joseph Hooper on 1/24/16.
 //  Copyright © 2016 josephdhooper. All rights reserved
+//  See site for information on pinch, zoom and pan: https://stackoverflow.com/questions/45402639/pinch-pan-and-rotate-text-simultaneously-like-snapchat-swift-3
 
 
 import UIKit
@@ -20,8 +21,8 @@ UINavigationControllerDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIGes
     @IBOutlet weak var bottomText: UITextField!
     @IBOutlet weak var toolBar: UIToolbar!
     
-    
-    var imagePicker: UIImagePickerController!
+    var width: CGFloat = 0
+    var height: CGFloat = 0
     
     var memes: [Meme]!
     var selectedImage: UIImage?
@@ -36,6 +37,52 @@ UINavigationControllerDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIGes
         setupTextField(textField: topText)
         setupTextField(textField: bottomText)
         
+        //add pan gesture
+        let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        gestureRecognizer.delegate = self
+        imagePickerView.addGestureRecognizer(gestureRecognizer)
+        
+        //add pinch gesture
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action:#selector(pinchRecognized(pinch:)))
+        pinchGesture.delegate = self
+        imagePickerView.addGestureRecognizer(pinchGesture)
+        
+        //add rotate gesture
+//        let rotate = UIRotationGestureRecognizer.init(target: self, action: #selector(handleRotate(recognizer:)))
+//        rotate.delegate = self
+//        imagePickerView.addGestureRecognizer(rotate)
+        
+    }
+    
+    func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
+        if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {
+
+            let translation = gestureRecognizer.translation(in: self.view)
+            // note: 'view' is optional and need to be unwrapped
+            gestureRecognizer.view!.center = CGPoint(x: gestureRecognizer.view!.center.x + translation.x, y: gestureRecognizer.view!.center.y + translation.y)
+            gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
+        }
+
+    }
+    
+    func pinchRecognized(pinch: UIPinchGestureRecognizer) {
+        
+        if let view = pinch.view {
+            view.transform = view.transform.scaledBy(x: pinch.scale, y: pinch.scale)
+            pinch.scale = 1
+        }
+    }
+    
+//    func handleRotate(recognizer : UIRotationGestureRecognizer) {
+//        if let view = recognizer.view {
+//            view.transform = view.transform.rotated(by: recognizer.rotation)
+//            recognizer.rotation = 0
+//        }
+//    }
+    
+    func gestureRecognizer(_: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
+        return true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +98,8 @@ UINavigationControllerDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIGes
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -170,21 +219,13 @@ UINavigationControllerDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIGes
         
     }
     
-    //MARK: Move keyboard up
-//    func subscribeToKeyboardNotifications () {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
-//    }
-    
+    //MARK: Move keyboard up and down
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-//    func unsubscribeToKeyboardNotifications () {
-//        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-//        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
-//    }
+
     
     func unsubscribeToKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
