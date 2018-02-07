@@ -19,9 +19,7 @@ class MemeDetailViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: UIBarButtonItemStyle.plain, target: self, action: #selector(MemeDetailViewController.deleteMeme))
         
-        
     }
-    
     
             func deleteMeme() {
                 let applicationDelegate = (UIApplication.shared.delegate as! AppDelegate)

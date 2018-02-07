@@ -28,7 +28,7 @@
             </objects>
             <point key="canvasLocation" x="-684" y="543"/>
         </scene>
-        <!--Sent Memes-->
+        <!--Memes-->
         <scene sceneID="f97-aB-BwM">
             <objects>
                 <collectionViewController id="VA4-YB-Fey" customClass="MemeCollectionViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
@@ -77,7 +77,7 @@
                             <outlet property="delegate" destination="VA4-YB-Fey" id="Gga-Fa-Gc6"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Sent Memes" id="y1N-jw-qLI">
+                    <navigationItem key="navigationItem" title="Memes" id="y1N-jw-qLI">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="DXM-gn-fOe">
                             <connections>
                                 <action selector="createMemeWithSender:" destination="VA4-YB-Fey" id="dXc-OT-ZpD"/>
@@ -270,7 +270,7 @@
             </objects>
             <point key="canvasLocation" x="-684" y="-235"/>
         </scene>
-        <!--Sent Memes-->
+        <!--Memes-->
         <scene sceneID="MjE-b5-UaE">
             <objects>
                 <tableViewController id="bv3-Nt-MTT" customClass="MemeTableViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
@@ -328,7 +328,7 @@
                             <outlet property="delegate" destination="bv3-Nt-MTT" id="0ni-dg-8Yk"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sent Memes" id="I4J-9K-WA7">
+                    <navigationItem key="navigationItem" title="Memes" id="I4J-9K-WA7">
                         <barButtonItem key="leftBarButtonItem" systemItem="trash" id="7m4-Ip-Z5Q">
                             <connections>
                                 <action selector="deleteMemeWithSender:" destination="bv3-Nt-MTT" id="Zo2-M6-zv5"/>
