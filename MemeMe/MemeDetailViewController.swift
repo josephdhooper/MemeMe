@@ -15,42 +15,42 @@ class MemeDetailViewController: UIViewController {
     
     var meme: Meme!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: UIBarButtonItemStyle.Plain, target: self, action: "deleteMeme")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("deleteMeme")))
         
         
     }
     
-        func deleteMeme() {
-            let object = UIApplication.sharedApplication().delegate
-            let appDelegate = object as! AppDelegate
-            for var index = 0; index < appDelegate.memes.count; index++ {
-                if appDelegate.memes[index].memedImage == meme.memedImage {
-                    appDelegate.memes.removeAtIndex(index)
-                    if let navigationController = self.navigationController {
-                        navigationController.popToRootViewControllerAnimated(true)
-                    }
-                }
-            }
-        }
-
-    override func viewWillAppear(animated: Bool) {
+    //        func deleteMeme() {
+    //            let object = UIApplication.shared.delegate
+    //            let appDelegate = object as! AppDelegate
+    //            for var index = 0; index < appDelegate.memes.count; index++ {
+    //                if appDelegate.memes[index].memedImage == meme.memedImage {
+    //                    appDelegate.memes.remove(at: index)
+    //                    if let navigationController = self.navigationController {
+    //                        navigationController.popToRootViewController(animated: true)
+    //                    }
+    //                }
+    //            }
+    //        }
+    
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBarController?.tabBar.hidden = true
+        tabBarController?.tabBar.isHidden = true
         imagePickerView!.image = meme.memedImage
         
     }
-        
-    override func viewWillDisappear(animated: Bool) {
+    
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tabBarController?.tabBar.hidden = false
+        tabBarController?.tabBar.isHidden = false
         
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
-    
+        
     }
 }
+
