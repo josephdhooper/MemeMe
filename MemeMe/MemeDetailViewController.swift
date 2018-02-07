@@ -17,23 +17,18 @@ class MemeDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("deleteMeme")))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: UIBarButtonItemStyle.plain, target: self, action: #selector(MemeDetailViewController.deleteMeme))
         
         
     }
     
-    //        func deleteMeme() {
-    //            let object = UIApplication.shared.delegate
-    //            let appDelegate = object as! AppDelegate
-    //            for var index = 0; index < appDelegate.memes.count; index++ {
-    //                if appDelegate.memes[index].memedImage == meme.memedImage {
-    //                    appDelegate.memes.remove(at: index)
-    //                    if let navigationController = self.navigationController {
-    //                        navigationController.popToRootViewController(animated: true)
-    //                    }
-    //                }
-    //            }
-    //        }
+    
+            func deleteMeme() {
+                let applicationDelegate = (UIApplication.shared.delegate as! AppDelegate)
+                applicationDelegate.memes.removeLast()
+                self.navigationController?.popViewController(animated: true)
+                
+            }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
