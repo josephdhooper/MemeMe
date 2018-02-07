@@ -3,8 +3,7 @@
 //  MemeMe
 //
 //  Created by Joseph Hooper on 1/24/16.
-//  Copyright © 2016 josephdhooper. All rights reserved.
-//  The "if statement" in func keyboardWillShow(notification: NSNotification) and func keyboardWillHide(notification: NSNotification were taken github and from the following stackoverflow page: http://stackoverflow.com/questions/34082835/swift-2-addobserver-for-specific-textfield-with-the-object-parameter
+//  Copyright © 2016 josephdhooper. All rights reserved
 
 
 import UIKit
@@ -34,8 +33,6 @@ UINavigationControllerDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIGes
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         setupTextField(textField: topText)
         setupTextField(textField: bottomText)
         
@@ -43,7 +40,7 @@ UINavigationControllerDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIGes
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        subscribeToKeyboardNotifications()
+        self.subscribeToKeyboardNotifications()
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
     }
     
@@ -174,29 +171,45 @@ UINavigationControllerDelegate, UITextFieldDelegate, UIScrollViewDelegate, UIGes
     }
     
     //MARK: Move keyboard up
+//    func subscribeToKeyboardNotifications () {
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+//    }
     
-    func subscribeToKeyboardNotifications () {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+    func subscribeToKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func unsubscribeToKeyboardNotifications () {
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+//    func unsubscribeToKeyboardNotifications () {
+//        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+//    }
+    
+    func unsubscribeToKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    @objc func keyboardWillShow (_ notification:Notification) {
-        view.frame.origin.y = -getKeyboardHeight(notification)
+    func keyboardWillShow (_ notification:Notification) {
+        if bottomText.isFirstResponder {
+        view.frame.origin.y = getKeyboardHeight(notification) * (-1)
+    }
     }
     
-    @objc func keyboardWillHide (_ notification: Notification){
+    func keyboardWillHide (_ notification: Notification){
+        if bottomText.isFirstResponder {
         view.frame.origin.y = 0
     }
-    
+    }
     func getKeyboardHeight(_ notification:Notification) -> CGFloat {
         let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue // of CGRect
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
         return keyboardSize.cgRectValue.height
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     
